@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Materias Obligatorias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-divider lines="inset"></ion-item-divider>
+
+    <ion-item *ngFor="let subject of subjects" lines="full">
+      <ion-label>
+        {{subject.code / 100 | number: '2.2-2'}} - {{subject.name}}
+      </ion-label>
+      <ion-button slot="end" [routerLink]="'/set-subject-note/' + subject.code" routerDirection="forward">
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+
+  </ion-list>
+</ion-content>

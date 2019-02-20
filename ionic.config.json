@@ -1,5 +1,7 @@
 {
   "name": "PlanDeEstudios",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

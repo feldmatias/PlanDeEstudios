@@ -11,10 +11,10 @@ const routes: Routes = [
     path: 'home',
     loadChildren: './home/home.module#HomePageModule'
   },
-  {
-    path: 'list',
-    loadChildren: './list/list.module#ListPageModule'
-  }
+  { path: 'available-required-subjects', 
+    loadChildren: './pages/available-required-subjects/available-required-subjects.module#AvailableRequiredSubjectsPageModule' 
+  },
+  { path: 'set-subject-note/:code', loadChildren: './pages/set-subject-note/set-subject-note.module#SetSubjectNotePageModule'}
 ];
 
 @NgModule({

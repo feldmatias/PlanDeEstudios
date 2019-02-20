@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button icon="arrow-round-back" defaultHref="/"> </ion-back-button>
+    </ion-buttons>
+    <ion-title>Nota de Materia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form #form="ngForm">
+
+    <ion-item>
+      <ion-label color="primary" position="stacked">Materia</ion-label>
+      <ion-input readonly [value]="(subject.code / 100).toFixed(2) + ' - ' + subject.name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary" position="stacked">Nota</ion-label>
+      <ion-input type="number" [(ngModel)]="note" name="note" [min]="0" [max]="10" required placeholder="Nota"></ion-input>
+    </ion-item>
+
+    <ion-row>
+      <ion-col class="button-col">
+        <ion-button shape="round" [disabled]="!form.form.valid" (click)="submit()">
+          <span>Cargar nota</span>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+</ion-content>
