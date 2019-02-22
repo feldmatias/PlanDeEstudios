@@ -12,19 +12,25 @@ export class StorageService {
     StorageService.instance = this;
   }
 
-  setValue(key: string, value: any){
-    this.nativeStorage.setItem(key, value)
-      .then(
-        () => console.log('Stored item!'),
-        error => console.error('Error storing item ', error)
-      );
+  async setValue(key: string, value: any){
+    try{
+      this.nativeStorage.setItem(key, value)
+    } catch {}
   }
 
-  getNumber(key: string, defaultValue: number, callback){
-    this.nativeStorage.getItem(key)
-      .then(
-        data => callback(Number(data)),
-        error => callback(defaultValue)
-      );
+  async getNumber(key: string, defaultValue: number){
+    return Number(await this.getValue(key, defaultValue));
+  }
+
+  async getString(key: string, defaultValue: string){
+    return await this.getValue(key, defaultValue);
+  }
+
+  private async getValue(key: string, defaultValue: any){
+    try {
+      return await this.nativeStorage.getItem(key);
+    } catch {
+      return defaultValue;
+    }
   }
 }

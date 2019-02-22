@@ -1,4 +1,7 @@
+import { StorageService } from '../services/storage.service';
 import { Subject } from './Subject';
+
+const orientationStorageKey = 'orientation';
 
 export class Career {
 
@@ -10,6 +13,7 @@ export class Career {
 
   requiredSubjects: Array<Subject> = [];
   optionalSubjects: Array<Subject> = [];
+  selectedOrientation: string;
 
 
   constructor(data: any){
@@ -21,26 +25,73 @@ export class Career {
       this.subjects.push(new Subject(subject));
     }.bind(this));
 
+    this.selectedOrientation = this.orientations[0];
+    this.initOrientation();
     this.initializeSubjects();
 
   }
 
   private initializeSubjects(){
-    var selectedOrientation = this.orientations[0]; //TODO change this
 
     this.subjects.forEach(function (subject){
+      subject.career = this;
 
       subject.correlatives.forEach(function (code){
         var correlative = this.subjects.find(s => s.code == code);
         subject.setCorrelative(correlative);
       }.bind(this));
+    }.bind(this));
 
-      if (subject.isRequired(selectedOrientation)){
+    this.initializeSubjectArrays();
+  }
+
+  private initializeSubjectArrays(){
+    this.requiredSubjects = [];
+    this.optionalSubjects = [];
+
+    this.subjects.forEach(function (subject){
+      if (subject.isRequired(this.selectedOrientation)){
         this.requiredSubjects.push(subject);
       } else {
         this.optionalSubjects.push(subject);
       }
     }.bind(this));
+  }
+
+  totalRequiredCredits(){
+    return this.requiredSubjects.reduce(((result: number, subject) => {return subject.isApproved() ? result + subject.credits : result}), 0);
+  }
+
+  totalOptionalCredits(){
+    return this.optionalSubjects.reduce(((result: number, subject) => {return subject.isApproved() ? result + subject.credits : result}), 0);
+  }
+
+  totalCredits(){
+    return this.totalRequiredCredits() + this.totalOptionalCredits();
+  }
+
+  getAverage(){
+    var total = 0;
+    var count = 0;
+    this.subjects.forEach(function(subject){
+      if (subject.isApproved()){
+        total += subject.note;
+        count ++;
+      }
+    });
+
+    return count > 0 ? total / count : 0;
+  }
+
+  changeOrientation(orientation: string){
+    this.selectedOrientation = orientation;
+    this.initializeSubjectArrays();
+    StorageService.instance.setValue(orientationStorageKey, orientation);
+  }
+
+  private async initOrientation(){
+    this.selectedOrientation = await StorageService.instance.getString(orientationStorageKey, this.selectedOrientation);
+    this.initializeSubjectArrays();
   }
 
 }

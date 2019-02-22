@@ -14,13 +14,33 @@ import { StorageService } from './services/storage.service';
 export class AppComponent {
   public appPages = [
     {
-      title: 'Home',
+      title: 'Carrera',
       url: '/home',
       icon: 'home'
     },
     {
       title: 'Materias Obligatorias',
       url: '/available-required-subjects',
+      icon: 'home'
+    },
+    {
+      title: 'Materias Electivas',
+      url: '/available-optional-subjects',
+      icon: 'home'
+    },
+    {
+      title: 'Materias Aprobadas',
+      url: '/approved-subjects',
+      icon: 'home'
+    },
+    {
+      title: 'Obligatorias Bloqueadas',
+      url: '/blocked-subjects',
+      icon: 'home'
+    },
+    {
+      title: 'Electivas Bloqueadas',
+      url: '/blocked-optional-subjects',
       icon: 'home'
     }
   ];

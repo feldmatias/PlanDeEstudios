@@ -1,4 +1,5 @@
 import { StorageService } from '../services/storage.service';
+import { Career } from './Career';
 
 const requiredSubjectType = 'required';
 const optionalSubjectType = 'optional';
@@ -16,6 +17,7 @@ export class Subject {
 
   note: number = 0;
   correlativeSubjects: Array<Subject> = [];
+  career: Career;
 
   constructor(data: any){
     this.code = data.code;
@@ -25,12 +27,11 @@ export class Subject {
     this.correlatives = data.correlatives;
     this.credits_needed = data.credits_needed;
 
-    StorageService.instance.getNumber(this.code.toString(), 0, this.initNote.bind(this));
+    this.initNote();
   }
 
   isRequired(selectedOrientation: string){
-    var completeType = this.type.split(subjectTypeSeparator);
-    var type = completeType[0];
+    var [type, orientation] = this.type.split(subjectTypeSeparator);
 
     switch (type) {
       case requiredSubjectType:
@@ -40,7 +41,6 @@ export class Subject {
         return false;
 
       case orientationSubjectType:
-        var orientation = completeType[1];
         return orientation == selectedOrientation;
       
       default:
@@ -52,8 +52,13 @@ export class Subject {
     this.correlativeSubjects.push(correlative);
   }
 
-  initNote(note: number){
+  private async initNote(){
+    this.note = await StorageService.instance.getNumber(this.code.toString(), 0);
+  }
+
+  setNote(note: number){
     this.note = note;
+    StorageService.instance.setValue(this.code.toString(), note);
   }
 
   isApproved(){
@@ -61,13 +66,12 @@ export class Subject {
   }
 
   isAvailable(){
-    this.correlativeSubjects.forEach(function(correlative){
-      if (!correlative.isApproved()){
-        return false;
-      }
-    });
+    return this.correlativeSubjects.every(s => s.isApproved()) && this.creditsNeeded() == 0;
+  }
 
-    return true;
+  creditsNeeded(){
+    var credits = this.credits_needed - this.career.totalCredits();
+    return credits > 0 ? credits : 0;
   }
 
 }

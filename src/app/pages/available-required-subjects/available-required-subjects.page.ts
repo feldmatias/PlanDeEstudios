@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Subject } from '../../models/Subject';
 import { SubjectsService } from '../../services/subjects.service';
 
@@ -7,13 +7,13 @@ import { SubjectsService } from '../../services/subjects.service';
   templateUrl: './available-required-subjects.page.html',
   styleUrls: ['./available-required-subjects.page.scss'],
 })
-export class AvailableRequiredSubjectsPage implements OnInit {
+export class AvailableRequiredSubjectsPage {
 
   subjects: Array<Subject>;
 
   constructor(private subjectsService: SubjectsService) { }
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.subjects = this.subjectsService.getRequiredSubjects().filter(s => s.isAvailable() && !s.isApproved());
   }
 

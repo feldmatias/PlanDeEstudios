@@ -14,7 +14,11 @@ const routes: Routes = [
   { path: 'available-required-subjects', 
     loadChildren: './pages/available-required-subjects/available-required-subjects.module#AvailableRequiredSubjectsPageModule' 
   },
-  { path: 'set-subject-note/:code', loadChildren: './pages/set-subject-note/set-subject-note.module#SetSubjectNotePageModule'}
+  { path: 'set-subject-note/:code', loadChildren: './pages/set-subject-note/set-subject-note.module#SetSubjectNotePageModule'},
+  { path: 'available-optional-subjects', loadChildren: './pages/available-optional-subjects/available-optional-subjects.module#AvailableOptionalSubjectsPageModule' },
+  { path: 'approved-subjects', loadChildren: './pages/approved-subjects/approved-subjects.module#ApprovedSubjectsPageModule' },
+  { path: 'blocked-subjects', loadChildren: './pages/blocked-subjects/blocked-subjects.module#BlockedSubjectsPageModule' },
+  { path: 'blocked-optional-subjects', loadChildren: './pages/blocked-optional-subjects/blocked-optional-subjects.module#BlockedOptionalSubjectsPageModule' }
 ];
 
 @NgModule({

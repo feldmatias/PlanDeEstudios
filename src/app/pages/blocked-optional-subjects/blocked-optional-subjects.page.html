@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Electivas Bloqueadas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-divider lines="inset"></ion-item-divider>
+
+    <ng-container *ngFor="let subject of subjects">
+      <ion-item lines="full" (click)="selectSubject(subject.code)">
+        <ion-label>
+          {{subject.code / 100 | number: '2.2-2'}} - {{subject.name}}
+        </ion-label>
+      </ion-item>
+
+      <ion-item padding-top *ngIf="selectedSubjectCode == subject.code" lines="full" class="correlativesInfo" color="light">
+        <ul>
+          <ng-container *ngFor="let correlative of subject.correlativeSubjects">
+            <ion-label padding-bottom [color]="correlative.isApproved() ? 'success' : 'danger'">
+              <ion-icon [name]="correlative.isApproved() ? 'checkmark-circle' : 'close-circle'"></ion-icon>
+              {{correlative.code / 100 | number: '2.2-2'}} - {{correlative.name}}
+            </ion-label>
+          </ng-container>
+          
+          <ion-label padding-bottom color="danger" *ngIf="subject.creditsNeeded() > 0">
+            <ion-icon name="close-circle"></ion-icon>
+            Faltan {{subject.creditsNeeded()}} créditos
+          </ion-label>
+      </ul>
+      </ion-item>
+    </ng-container>
+
+    <ion-item *ngIf="!subjects || subjects.length == 0" lines="full">
+      <div text-center class="w-100">
+        No hay materias
+      </div>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

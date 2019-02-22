@@ -24,4 +24,8 @@ export class SubjectsService {
   getRequiredSubjects(){
     return this.career.requiredSubjects;
   }
+
+  getOptionalSubjects(){
+    return this.career.optionalSubjects;
+  }
 }
