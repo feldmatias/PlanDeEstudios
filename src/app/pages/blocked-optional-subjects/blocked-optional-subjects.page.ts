@@ -15,7 +15,7 @@ export class BlockedOptionalSubjectsPage {
   constructor(private subjectsService: SubjectsService) { }
 
   ionViewDidEnter() {
-    this.subjects = this.subjectsService.getOptionalSubjects().filter(s => !s.isAvailable() && !s.isApproved()).sort((a, b) => a.code - b.code);
+    this.subjects = this.subjectsService.getOptionalSubjects().filter(s => !s.isAvailable() && !s.isApproved());
   }
 
   selectSubject(code: number){

@@ -10,17 +10,18 @@ import { SubjectsService } from '../services/subjects.service';
 export class HomePage {
   
   career: Career;
-  selectedOrientation: string;
 
   constructor(private subjectsService: SubjectsService) { }
 
   ionViewDidEnter() {
-    this.career = this.subjectsService.getCareer();
-    this.selectedOrientation = this.career.selectedOrientation;
+    this.career = this.subjectsService.getCareer();  }
+
+  orientationChanged(orientation: string){
+    this.career.changeOrientation(orientation);
   }
 
-  orientationChanged(){
-    this.career.changeOrientation(this.selectedOrientation);
+  endSubjectChanged(subject: string){
+    this.career.changeEndSubject(subject);
   }
 
 }

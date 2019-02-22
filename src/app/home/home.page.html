@@ -31,7 +31,7 @@
           Créditos: 
         </ion-label>
         <ion-label text-left padding-start class="text-l">
-          {{career.totalRequiredCredits()}} / {{career.required_credits}}
+          {{career.totalRequiredCreditsEarned()}} / {{career.requiredCredits()}}
         </ion-label>
       </ion-item>
 
@@ -40,16 +40,36 @@
           Electivas: 
         </ion-label>
         <ion-label text-left padding-start class="text-l">
-          {{career.totalOptionalCredits()}} / {{career.optional_credits}}
+          {{career.totalOptionalCreditsEarned()}} / {{career.optionalCredits()}}
         </ion-label>
       </ion-item>
 
       <ion-item >
-        <ion-label text-right padding-end class="bold text-l pr-35">
-          Orientación: 
+        <ion-label text-center class="bold text-l">
+          Orientación 
         </ion-label>
-        <ion-select [(ngModel)]="selectedOrientation" okText="Seleccionar" cancelText="Cancelar" class="orientations" mode="ios" (ionChange)="orientationChanged()">
+      </ion-item>
+      <ion-item class="alignCenter">
+        <ion-select [value]="career.selectedOrientation" okText="Seleccionar" cancelText="Cancelar" class="orientations" mode="ios" (ionChange)="orientationChanged($event.target.value)" text-center>
+          <ion-label text-center>
+            Orientación 
+          </ion-label>
           <ion-select-option *ngFor="let orientation of career.orientations">{{orientation}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item >
+        <ion-label text-center class="bold text-l">
+          Final
+        </ion-label>
+      </ion-item>
+      <ion-item class="alignCenter">
+        <ion-select [value]="career.selectedEndSubject" okText="Seleccionar" cancelText="Cancelar" class="orientations" mode="ios" (ionChange)="endSubjectChanged($event.target.value)" text-center>
+          <ion-label text-center>
+            Final
+          </ion-label>
+          <ion-select-option>Tesis</ion-select-option>
+          <ion-select-option>Trabajo Profesional</ion-select-option>
         </ion-select>
       </ion-item>
 

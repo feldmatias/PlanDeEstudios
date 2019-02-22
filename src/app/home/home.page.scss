@@ -1,4 +1,8 @@
-.orientations{
-  width: 220px;
-  max-width: 1000px !important;
+.orientations {
+  max-width: 100%;
+}
+
+.alignCenter {
+  justify-content: center;
+  display: grid;
 }

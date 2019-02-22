@@ -12,7 +12,7 @@
     <ion-item-divider lines="inset"></ion-item-divider>
 
     <ion-item *ngFor="let subject of subjects" lines="full">
-      <ion-label>
+      <ion-label  text-wrap>
         {{subject.code / 100 | number: '2.2-2'}} - {{subject.name}}
       </ion-label>
       <ion-button slot="end" [routerLink]="'/set-subject-note/' + subject.code" routerDirection="forward" size="default">

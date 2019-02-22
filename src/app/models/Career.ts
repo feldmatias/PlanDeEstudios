@@ -2,6 +2,10 @@ import { StorageService } from '../services/storage.service';
 import { Subject } from './Subject';
 
 const orientationStorageKey = 'orientation';
+const endSubjectStorageKey = 'endSubject';
+
+const thesis = 'Tesis';
+const professionalWork = 'Trabajo Profesional';
 
 export class Career {
 
@@ -13,7 +17,11 @@ export class Career {
 
   requiredSubjects: Array<Subject> = [];
   optionalSubjects: Array<Subject> = [];
-  selectedOrientation: string;
+  selectedOrientation: string = null;
+  selectedEndSubject: string = null;
+
+  thesisSubject: Subject;
+  professionalWorkSubject: Subject;
 
 
   constructor(data: any){
@@ -25,9 +33,9 @@ export class Career {
       this.subjects.push(new Subject(subject));
     }.bind(this));
 
-    this.selectedOrientation = this.orientations[0];
-    this.initOrientation();
     this.initializeSubjects();
+    this.initOrientation();
+    this.initEndSubject();
 
   }
 
@@ -40,6 +48,13 @@ export class Career {
         var correlative = this.subjects.find(s => s.code == code);
         subject.setCorrelative(correlative);
       }.bind(this));
+
+      if (subject.name == thesis){
+        this.thesisSubject = subject;
+      } else if (subject.name == professionalWork){
+        this.professionalWorkSubject = subject;
+      }
+
     }.bind(this));
 
     this.initializeSubjectArrays();
@@ -50,24 +65,34 @@ export class Career {
     this.optionalSubjects = [];
 
     this.subjects.forEach(function (subject){
-      if (subject.isRequired(this.selectedOrientation)){
+      if (subject.isRequired(this.selectedOrientation, this.selectedEndSubject)){
         this.requiredSubjects.push(subject);
-      } else {
+      } else if (!subject.isEndSubject()) {
         this.optionalSubjects.push(subject);
       }
     }.bind(this));
+
+    this.optionalSubjects = this.optionalSubjects.sort((a, b) => a.code - b.code);
   }
 
-  totalRequiredCredits(){
+  totalRequiredCreditsEarned(){
     return this.requiredSubjects.reduce(((result: number, subject) => {return subject.isApproved() ? result + subject.credits : result}), 0);
   }
 
-  totalOptionalCredits(){
+  totalOptionalCreditsEarned(){
     return this.optionalSubjects.reduce(((result: number, subject) => {return subject.isApproved() ? result + subject.credits : result}), 0);
   }
 
   totalCredits(){
-    return this.totalRequiredCredits() + this.totalOptionalCredits();
+    return this.totalRequiredCreditsEarned() + this.totalOptionalCreditsEarned();
+  }
+
+  requiredCredits(){
+    return this.required_credits + (this.selectedEndSubject == thesis ? this.thesisSubject.credits : this.professionalWorkSubject.credits);
+  }
+
+  optionalCredits(){
+    return this.optional_credits + (this.selectedEndSubject == thesis ? 0 : this.thesisSubject.credits - this.professionalWorkSubject.credits);
   }
 
   getAverage(){
@@ -90,7 +115,18 @@ export class Career {
   }
 
   private async initOrientation(){
-    this.selectedOrientation = await StorageService.instance.getString(orientationStorageKey, this.selectedOrientation);
+    this.selectedOrientation = await StorageService.instance.getString(orientationStorageKey, this.orientations[0]);
+    this.initializeSubjectArrays();
+  }
+
+  changeEndSubject(subject: string){
+    this.selectedEndSubject = subject;
+    this.initializeSubjectArrays();
+    StorageService.instance.setValue(endSubjectStorageKey, subject);
+  }
+
+  private async initEndSubject(){
+    this.selectedEndSubject = await StorageService.instance.getString(endSubjectStorageKey, thesis);
     this.initializeSubjectArrays();
   }
 

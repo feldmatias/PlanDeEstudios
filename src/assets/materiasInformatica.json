@@ -1,8 +1,8 @@
 {
 	"name" : "Ingeniería en Informática",
-	"required_credits" : 202,
-	"optional_credits" : 46,
-  "orientations" : ["Sistemas Distribuidos", "Gestión Industrial de Sistemas", "Sistemas de Producción"],
+	"required_credits" : 190, //without thesis and proffesional work
+	"optional_credits" : 34,  //without thesis and proffesional work
+	"orientations" : ["Sistemas Distribuidos", "Gestión Industrial de Sistemas", "Sistemas de Producción"],
 	"subjects": [
 	{
 		"code" : 6103,
@@ -682,7 +682,15 @@
 		"code" : 7599,
 		"name" : "Trabajo Profesional",
 		"credits" : 12,
-		"type" : "required",
+		"type" : "end",
+		"correlatives" : [],
+		"credits_needed" : 140
+	},
+	{
+		"code" : 7500,
+		"name" : "Tesis",
+		"credits" : 24,
+		"type" : "end",
 		"correlatives" : [],
 		"credits_needed" : 140
 	}

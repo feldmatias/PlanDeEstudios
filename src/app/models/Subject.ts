@@ -4,6 +4,7 @@ import { Career } from './Career';
 const requiredSubjectType = 'required';
 const optionalSubjectType = 'optional';
 const orientationSubjectType = 'orientation';
+const endSubjectType = 'end';
 const subjectTypeSeparator = '-';
 
 export class Subject {
@@ -30,7 +31,7 @@ export class Subject {
     this.initNote();
   }
 
-  isRequired(selectedOrientation: string){
+  isRequired(selectedOrientation: string, selectedEndSubject: string){
     var [type, orientation] = this.type.split(subjectTypeSeparator);
 
     switch (type) {
@@ -42,6 +43,9 @@ export class Subject {
 
       case orientationSubjectType:
         return orientation == selectedOrientation;
+
+      case endSubjectType:
+        return this.name == selectedEndSubject;
       
       default:
         return false
@@ -59,6 +63,10 @@ export class Subject {
   setNote(note: number){
     this.note = note;
     StorageService.instance.setValue(this.code.toString(), note);
+  }
+
+  isEndSubject(){
+    return this.type == endSubjectType;
   }
 
   isApproved(){
