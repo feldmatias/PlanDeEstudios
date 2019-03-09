@@ -8,23 +8,5 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item-divider lines="inset"></ion-item-divider>
-
-    <ion-item *ngFor="let subject of subjects" lines="full">
-      <ion-label  text-wrap>
-        {{subject.code / 100 | number: '2.2-2'}} - {{subject.name}}
-      </ion-label>
-      <ion-button slot="end" [routerLink]="'/set-subject-note/' + subject.code" routerDirection="forward" size="default">
-        <ion-label class="text-xl">{{subject.note}}</ion-label>
-      </ion-button>
-    </ion-item>
-
-    <ion-item *ngIf="!subjects || subjects.length == 0" lines="full">
-      <div text-center class="w-100">
-        No hay materias
-      </div>
-    </ion-item>
-
-  </ion-list>
+  <app-subjects-list [subjects]="subjects"></app-subjects-list>
 </ion-content>

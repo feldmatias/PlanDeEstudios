@@ -1,0 +1,32 @@
+<ion-item lines="full">
+  <ion-label text-wrap (click)="subjectClicked()">
+    {{subject.code / 100 | number: '2.2-2'}} - {{subject.name}}
+  </ion-label>
+  <ion-button slot="end" [routerLink]="'/set-subject-note/' + subject.code" routerDirection="forward" *ngIf="!subject.isApproved() && subject.isAvailable()">
+    <ion-icon name="checkmark"></ion-icon>
+  </ion-button>
+  <ion-button slot="end" [routerLink]="'/set-subject-note/' + subject.code" routerDirection="forward" size="default" *ngIf="subject.isApproved()">
+    <ion-label class="text-xl">{{subject.note}}</ion-label>
+  </ion-button>
+</ion-item>
+
+<ion-item padding-top *ngIf="selected" lines="full" class="correlativesInfo" color="light">
+  <ul>
+    <ng-container *ngFor="let correlative of subject.correlativeSubjects">
+      <ion-label padding-bottom [color]="correlative.isApproved() ? 'success' : 'danger'"  text-wrap>
+        <ion-icon [name]="correlative.isApproved() ? 'checkmark-circle' : 'close-circle'"></ion-icon>
+        {{correlative.code / 100 | number: '2.2-2'}} - {{correlative.name}}
+      </ion-label>
+    </ng-container>
+    
+    <ion-label padding-bottom color="danger" *ngIf="subject.creditsNeeded() > 0">
+      <ion-icon name="close-circle"></ion-icon>
+      Faltan {{subject.creditsNeeded()}} créditos
+    </ion-label>
+
+    <ion-label padding-bottom *ngIf="subject.correlativeSubjects.length == 0 && subject.creditsNeeded() == 0">
+      No tiene correlativas
+    </ion-label>
+
+  </ul>
+</ion-item>

@@ -1,0 +1,14 @@
+<ion-list padding-bottom class="pb-50">
+  <ion-item-divider lines="inset"></ion-item-divider>
+
+  <ng-container *ngFor="let subject of subjects">
+    <app-subject [subject]="subject" [selected]="subject.code == selectedSubject" (clicked)="selectSubject($event)"></app-subject>
+  </ng-container>
+
+  <ion-item *ngIf="!subjects || subjects.length == 0" lines="full">
+    <div text-center class="w-100">
+      No hay materias
+    </div>
+  </ion-item>
+
+</ion-list>
