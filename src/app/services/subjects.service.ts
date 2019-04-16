@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Career } from '../models/Career';
 import jsonData  from '../../assets/materiasInformatica.json';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,10 @@ export class SubjectsService {
 
   career: Career;
 
-  constructor() { 
-    this.career = new Career(jsonData);
+  constructor(private platform: Platform) {
+    this.platform.ready().then(() => {
+      this.career = new Career(jsonData);
+    });
   }
 
   getCareer(){

@@ -14,7 +14,7 @@ export class StorageService {
 
   async setValue(key: string, value: any){
     try{
-      this.nativeStorage.setItem(key, value)
+      await this.nativeStorage.setItem(key, value)
     } catch {}
   }
 
